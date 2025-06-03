@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello Sinatra</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <section>
+    <h1>メモアプリ</h1>
+    <form action="/edit/<%= @item[:id] %>" method="get">
+      <input type="submit" value="変更">
+    </form>
+    <form action="/api/items/delete/<%= @item[:id] %>" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <input type="submit" value="削除">
+    </form>
+    <h2>
+      <%= @item[:title] %>
+    </h2>
+    <p>
+      <%= @item[:content] %>
+    </p>
+  </section>
+</body>
+
+</html>
