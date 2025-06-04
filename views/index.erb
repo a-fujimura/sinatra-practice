@@ -13,9 +13,9 @@
     <section>
       <h2>メモ一覧</h2>
       <ul>
-        <% @items.each do |item| %>
+        <% @memos.each do |memo| %>
           <li>
-            <a href="<%= " /show/#{item[:id]}" %>"><%= item[:title] %></a>
+            <a href="<%= " /show/#{memo[:id]}" %>"><%= memo[:title] %></a>
           </li>
           <% end %>
       </ul>

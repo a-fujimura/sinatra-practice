@@ -1,21 +1,19 @@
 require "sinatra"
 require "json"
 
-$save_file = "items.json"
+$save_file = "memos.json"
 
 get "/" do
-  @items = get_items()
-  if @items
+  @memos = get_memos()
+  if @memos
     erb :index
-  else
   end
 end
 
 get "/edit/:id" do
-  @item = get_item(:id)
-  if @item
+  @memo = get_memo(:id)
+  if @memo
     erb :edit
-  else
   end
 end
 
@@ -24,120 +22,111 @@ get "/new" do
 end
 
 get "/show/:id" do
-  @item = get_item(:id)
-  if @item
+  @memo = get_memo(:id)
+  if @memo
     erb :show
-  else
   end
 end
 
-def get_app_db()
-  return read_json()
+def get_memos()
+  return read_json()[:memos]
 end
 
-def set_app_db(app_data)
-  write_json(items)
+def get_memo(id)
+  return get_memos().find { |i| i[:id] == params[:id].to_i }
 end
 
-def get_items()
-  return get_app_db()[:items]
+def add_memo(memo)
+  memo_json = read_json()
+  value = memo_json[:autoincrement].to_i + 1
+
+  memo[:id] = value
+
+  memo_json[:autoincrement] = value
+  memo_json[:memos] = memo_json[:memos] << memo
+
+  write_json(memo_json)
 end
 
-def get_item(id)
-  return get_items().find { |i| i[:id] == params[:id].to_i }
-end
+def edit_memo(memo)
+  memo_json = read_json()
 
-def add_item(item)
-  app_db = get_app_db()
-  value = app_db[:autoincrement].to_i + 1
-
-  item[:id] = value
-
-  app_db[:autoincrement] = value
-  app_db[:items] = app_db[:items] << item
-
-  write_json(app_db)
-end
-
-def edit_item(item)
-  app_db = get_app_db()
-
-  target = app_db[:items].find { |x| x[:id] == item[:id] }
+  target = memo_json[:memos].find { |x| x[:id] == memo[:id] }
   if target
-    target[:title] = item[:title]
-    target[:content] = item[:content]
+    target[:title] = memo[:title]
+    target[:content] = memo[:content]
   end
 
-  write_json(app_db)
+  write_json(memo_json)
 end
 
-def delete_item(item_id)
-  app_db = get_app_db()
+def delete_memo(memo_id)
+  memo_json = get_memo_json()
 
-  if app_db[:items]
-    app_db[:items].reject! { |x| x[:id].to_i == item_id.to_i }
+  if memo_json[:memos]
+    memo_json[:memos].reject! { |x| x[:id].to_i == memo_id.to_i }
   end
 
-  write_json(app_db)
+  write_json(memo_json)
 end
 
 # 取得(全てのアイテム)
-get "/api/items" do
+get "/api/memos" do
   content_type :json
-  get_item.to_json
+  get_memo.to_json
 end
 
 # 取得(指定のアイテム)
-get "/api/items/:id" do
+get "/api/memos/:id" do
   content_type :json
-  item = get_item(:id)
-  if item.to_json
-    item.to_json
+  memo = get_memo(:id)
+  if memo.to_json
+    memo.to_json
   else
-    { error: "Item not fount" }.to_json
+    { error: "memo not fount" }.to_json
   end
 end
 
 # 追加
-post "/api/items/add" do
+post "/api/memos/add" do
   title = params[:title]
   content = params[:content]
 
-  new_item = {
+  new_memo = {
     id: -1,
     title: title,
     content: content,
   }
-  add_item(new_item)
+  add_memo(new_memo)
 
   redirect "/"
 end
 
 # 編集
-patch "/api/items/edit/:id" do
-  item = { id: params[:id].to_i, title: params[:title], content: params[:content] }
-  edit_item(item)
+patch "/api/memos/edit/:id" do
+  memo = { id: params[:id].to_i, title: params[:title], content: params[:content] }
+  edit_memo(memo)
 
   redirect "/"
 end
 
 # 削除
-delete "/api/items/delete/:id" do
-  delete_item(params[:id])
+delete "/api/memos/delete/:id" do
+  delete_memo(params[:id])
   redirect "/"
 end
 
-def write_json(items)
+def write_json(memos)
   File.open($save_file, "w") do |file|
-    file.write(JSON.pretty_generate(items))
+    file.write(JSON.pretty_generate(memos))
   end
 end
 
 def read_json()
   unless File.exist?($save_file)
-    write_json({ autoincrement: 0, items: [] })
+    write_json({ autoincrement: 0, memos: [] })
   end
   # Jsonを取得
-  items = JSON.parse(File.read($save_file), symbolize_names: true)
-  return items
+  memos = JSON.parse(File.read($save_file), symbolize_names: true)
+  return memos
 end
