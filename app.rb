@@ -2,6 +2,7 @@
 
 require 'sinatra'
 require 'json'
+set :erb, escape_html: true
 
 SAVE_FILE = 'memos.json'
 
