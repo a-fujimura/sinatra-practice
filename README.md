@@ -6,7 +6,7 @@ git clone https://github.com/a-fujimura/sinatra-practice.git
 3. クローンしたフォルダに移動し、作業用ブランチに切り替えます。  
 ```bash  
 cd sinatra-practice
-git checkout f-work
+git checkout develop
 ``` 
 3. Gemをインストールします  
 ```bash
