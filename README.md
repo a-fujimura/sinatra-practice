@@ -14,5 +14,5 @@ bundle install
 ```
 4. 以下コマンドで起動します
 ```bash
-bundle install
+ruby app.rb
 ```
