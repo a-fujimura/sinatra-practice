@@ -8,22 +8,31 @@
 </head>
 
 <body>
-  <section>
+  <article>
     <h1>メモアプリ</h1>
-    <form action="/edit/<%= @item[:id] %>" method="get">
-      <input type="submit" value="変更">
-    </form>
-    <form action="/api/items/delete/<%= @item[:id] %>" method="post">
-      <input type="hidden" name="_method" value="delete">
-      <input type="submit" value="削除">
-    </form>
-    <h2>
-      <%= @item[:title] %>
-    </h2>
-    <p>
-      <%= @item[:content] %>
-    </p>
-  </section>
+    <section>
+      <div class="form-items">
+        <div class="form-items__item">
+          <label>タイトル</label>
+          <input type="text" value="<%= @item[:title] %>" name="title">
+        </div>
+        <div class="form-items__item">
+          <label>内容</label>
+          <textarea name="content"><%= @item[:content] %></textarea>
+        </div>
+
+        <div class="form-action">
+          <form action="/edit/<%= @item[:id] %>" method="get">
+            <input type="submit" value="変更">
+          </form>
+          <form action="/api/items/delete/<%= @item[:id] %>" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <input type="submit" value="削除">
+          </form>
+        </div>
+      </div>
+    </section>
+  </article>
 </body>
 
 </html>

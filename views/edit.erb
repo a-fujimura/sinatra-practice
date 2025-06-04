@@ -8,17 +8,25 @@
 </head>
 
 <body>
-  <section>
+  <article>
     <h1>メモアプリ</h1>
-    <section>
-      <form action="/api/items/edit/<%= @item[:id] %>" method="post">
+    <form action="/api/items/edit/<%= @item[:id] %>" method="post">
+      <div class="form-items">
         <input type="hidden" name="_method" value="patch">
-        <input type="text" value="<%= @item[:title] %>" name="title">
-        <textarea name="content"><%= @item[:content] %></textarea>
-        <input type="submit" value="保存">
-      </form>
+        <div class="form-items__item">
+          <label>タイトル</label>
+          <input type="text" value="<%= @item[:title] %>" name="title">
+        </div>
+        <div class="form-items__item">
+          <label>内容</label>
+          <textarea name="content"><%= @item[:content] %></textarea>
+        </div>
+      </div>
+      <div class="form-action">
+        <input type="submit" value="上書き">
+      </div>
+    </form>
     </section>
-  </section>
 </body>
 
 </html>

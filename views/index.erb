@@ -8,12 +8,10 @@
 </head>
 
 <body>
-  <section>
+  <article>
     <h1>メモアプリ</h1>
     <section>
-      <form action="/new" method="get">
-        <input type="submit" value="追加">
-      </form>
+      <h2>メモ一覧</h2>
       <ul>
         <% @items.each do |item| %>
           <li>
@@ -21,8 +19,13 @@
           </li>
           <% end %>
       </ul>
+      <form action="/new" method="get">
+        <div class="form-action">
+          <input type="submit" value="追加">
+        </div>
+      </form>
     </section>
-  </section>
+  </article>
 </body>
 
 </html>
