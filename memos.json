@@ -1,10 +1,4 @@
 {
-  "autoincrement": 1,
-  "memos": [
-    {
-      "id": 1,
-      "title": "test",
-      "content": "test"
-    }
-  ]
+  "autoincrement": 4,
+  "memos": []
 }
