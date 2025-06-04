@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello Sinatra</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <article>
+    <h1>メモアプリ</h1>
+    <section>
+      <div class="form-items">
+        <div class="form-items__item">
+          <label>タイトル</label>
+          <input type="text" value="<%= @memo[:title] %>" name="title" readonly>
+        </div>
+        <div class="form-items__item">
+          <label>内容</label>
+          <textarea readonly name="content"><%= @memo[:content] %></textarea>
+        </div>
+
+        <div class="form-action">
+          <form action="/edit/<%= @memo[:id] %>" method="get">
+            <input type="submit" value="変更">
+          </form>
+          <form action="/api/memos/delete/<%= @memo[:id] %>" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <input type="submit" value="削除">
+          </form>
+        </div>
+      </div>
+    </section>
+  </article>
+</body>
+
+</html>

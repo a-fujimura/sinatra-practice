@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello Sinatra</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <article>
+    <h1>メモアプリ</h1>
+    <form action="/api/memos/edit/<%= @memo[:id] %>" method="post">
+      <div class="form-items">
+        <input type="hidden" name="_method" value="patch">
+        <div class="form-items__item">
+          <label>タイトル</label>
+          <input type="text" value="<%= @memo[:title] %>" name="title">
+        </div>
+        <div class="form-items__item">
+          <label>内容</label>
+          <textarea name="content"><%= @memo[:content] %></textarea>
+        </div>
+      </div>
+      <div class="form-action">
+        <input type="submit" value="上書き">
+      </div>
+    </form>
+    </section>
+</body>
+
+</html>
