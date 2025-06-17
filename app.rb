@@ -6,12 +6,6 @@ set :erb, escape_html: true
 
 SAVE_FILE = 'memos.json'
 
-helpers do
-  def h(text)
-    ERB::Util.html_escape(text)
-  end
-end
-
 get '/' do
   @memos = memos || []
   erb :index if @memos
