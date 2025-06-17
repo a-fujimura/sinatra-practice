@@ -2,7 +2,6 @@
 
 source 'https://rubygems.org'
 
-# gem "rails"
 gem 'erb_lint'
 gem 'json'
 gem 'rubocop-fjord'
