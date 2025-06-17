@@ -40,7 +40,7 @@ def add_memo(memo)
   memo[:id] = value
 
   memo_json[:autoincrement] = value
-  memo_json[:memos] = memo_json[:memos] << memo
+  memo_json[:memos] << memo
 
   write_json(memo_json)
 end
