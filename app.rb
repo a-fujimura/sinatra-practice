@@ -7,7 +7,7 @@ set :erb, escape_html: true
 SAVE_FILE = 'memos.json'
 
 get '/' do
-  @memos = memos
+  @memos = memos || []
   erb :index if @memos
 end
 
