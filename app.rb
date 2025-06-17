@@ -12,7 +12,7 @@ get '/' do
 end
 
 get '/edit/:id' do
-  @memo = get_memo(:id)
+  @memo = get_memo(params[:id])
   erb :edit if @memo
 end
 
@@ -21,7 +21,7 @@ get '/new' do
 end
 
 get '/show/:id' do
-  @memo = get_memo(:id)
+  @memo = get_memo(params[:id])
   erb :show if @memo
 end
 
@@ -30,7 +30,7 @@ def memos
 end
 
 def get_memo(id)
-  memos.find { |i| i[id] == params[id].to_i }
+  memos.find { |memo| memo[:id].to_i == id.to_i }
 end
 
 def add_memo(memo)
