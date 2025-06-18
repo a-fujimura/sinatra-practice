@@ -65,12 +65,12 @@ def delete_memo(memo_id)
   write_json(memo_json)
 end
 
+# 新規追加
 post '/api/memos' do
   title = params[:title]
   content = params[:content]
 
   new_memo = {
-    id: -1,
     title: title,
     content: content
   }
@@ -79,6 +79,7 @@ post '/api/memos' do
   redirect '/'
 end
 
+# 編集
 patch '/api/memos/:id' do
   memo = { id: params[:id].to_i, title: params[:title], content: params[:content] }
   edit_memo(memo)
@@ -100,6 +101,5 @@ end
 
 def read_json
   write_json({ autoincrement: 0, memos: [] }) unless File.exist?(SAVE_FILE)
-  # Jsonを取得
   JSON.parse(File.read(SAVE_FILE), symbolize_names: true)
 end
