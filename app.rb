@@ -65,19 +65,6 @@ def delete_memo(memo_id)
   write_json(memo_json)
 end
 
-# 取得(全てのアイテム)
-get '/api/memos' do
-  content_type :json
-  get_memo.to_json
-end
-
-# 取得(指定のアイテム)
-get '/api/memos/:id' do
-  content_type :json
-  memo = get_memo(:id)
-  memo.to_json || { error: 'memo not fount' }.to_json
-end
-
 # 追加
 post '/api/memos/add' do
   title = params[:title]
