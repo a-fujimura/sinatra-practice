@@ -25,7 +25,7 @@
           <form action="/edit/<%= @memo[:id] %>" method="get">
             <input type="submit" value="変更">
           </form>
-          <form action="/api/memos/delete/<%= @memo[:id] %>" method="post">
+          <form action="/api/memos/<%= @memo[:id] %>" method="post">
             <input type="hidden" name="_method" value="delete">
             <input type="submit" value="削除">
           </form>

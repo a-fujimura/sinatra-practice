@@ -65,8 +65,7 @@ def delete_memo(memo_id)
   write_json(memo_json)
 end
 
-# 追加
-post '/api/memos/add' do
+post '/api/memos' do
   title = params[:title]
   content = params[:content]
 
@@ -80,8 +79,7 @@ post '/api/memos/add' do
   redirect '/'
 end
 
-# 編集
-patch '/api/memos/edit/:id' do
+patch '/api/memos/:id' do
   memo = { id: params[:id].to_i, title: params[:title], content: params[:content] }
   edit_memo(memo)
 
@@ -89,7 +87,7 @@ patch '/api/memos/edit/:id' do
 end
 
 # 削除
-delete '/api/memos/delete/:id' do
+delete '/api/memos/:id' do
   delete_memo(params[:id])
   redirect '/'
 end

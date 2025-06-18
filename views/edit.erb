@@ -10,7 +10,7 @@
 <body>
   <article>
     <h1>メモアプリ</h1>
-    <form action="/api/memos/edit/<%= @memo[:id] %>" method="post">
+    <form action="/api/memos/<%= @memo[:id] %>" method="post">
       <div class="form-items">
         <input type="hidden" name="_method" value="patch">
         <div class="form-items__item">
