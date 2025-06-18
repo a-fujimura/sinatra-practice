@@ -29,38 +29,33 @@ def memos
   read_json[:memos]
 end
 
-def get_memo(id)
-  memos.find { |memo| memo[:id].to_i == id.to_i }
+def get_memo(memo_id)
+  memos[memo_id.to_sym]
 end
 
-def add_memo(memo)
+def add_memo(memo_content)
   memo_json = read_json
   value = memo_json[:autoincrement].to_i + 1
 
-  memo[:id] = value
-
   memo_json[:autoincrement] = value
-  memo_json[:memos] << memo
+  memo_json[:memos][value] = memo_content
 
   write_json(memo_json)
 end
 
-def edit_memo(memo)
+def edit_memo(memo_key, memo_content)
   memo_json = read_json
-
-  target = memo_json[:memos].find { |x| x[:id] == memo[:id] }
+  target = memo_json[:memos][memo_key.to_sym]
   if target
-    target[:title] = memo[:title]
-    target[:content] = memo[:content]
+    target[:title] = memo_content[:title]
+    target[:content] = memo_content[:content]
   end
-
   write_json(memo_json)
 end
 
-def delete_memo(memo_id)
+def delete_memo(memo_key)
   memo_json = read_json
-
-  memo_json[:memos]&.reject! { |x| x[:id].to_i == memo_id.to_i }
+  memo_json[:memos].delete(memo_key.to_sym)
 
   write_json(memo_json)
 end
@@ -81,8 +76,8 @@ end
 
 # 編集
 patch '/api/memos/:id' do
-  memo = { id: params[:id].to_i, title: params[:title], content: params[:content] }
-  edit_memo(memo)
+  memo = { title: params[:title], content: params[:content] }
+  edit_memo(params[:id], memo)
 
   redirect '/'
 end
@@ -100,6 +95,6 @@ def write_json(memos)
 end
 
 def read_json
-  write_json({ autoincrement: 0, memos: [] }) unless File.exist?(SAVE_FILE)
+  write_json({ autoincrement: 0, memos: {} }) unless File.exist?(SAVE_FILE)
   JSON.parse(File.read(SAVE_FILE), symbolize_names: true)
 end

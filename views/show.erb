@@ -22,10 +22,10 @@
         </div>
 
         <div class="form-action">
-          <form action="/edit/<%= @memo[:id] %>" method="get">
+          <form action="/edit/<%= params[:id] %>" method="get">
             <input type="submit" value="変更">
           </form>
-          <form action="/api/memos/<%= @memo[:id] %>" method="post">
+          <form action="/api/memos/<%= params[:id] %>" method="post">
             <input type="hidden" name="_method" value="delete">
             <input type="submit" value="削除">
           </form>
