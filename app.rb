@@ -18,18 +18,18 @@ end
 get '/memos/show/:id' do
   @memo = get_memo(params[:id])
   if @memo.nil?
-    erb :show
-  else
     halt 500
+  else
+    erb :show
   end
 end
 
 get '/memos/edit/:id' do
   @memo = get_memo(params[:id])
   if @memo.nil?
-    erb :edit
-  else
     halt 500
+  else
+    erb :edit
   end
 end
 
