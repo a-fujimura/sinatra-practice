@@ -15,13 +15,13 @@
       <ul>
         <% @memos.each do |key, memo| %>
           <li>
-            <a href="/show/<%= key %>">
+            <a href="/memos/<%= key %>">
               <%= memo[:title] %>
             </a>
           </li>
           <% end %>
       </ul>
-      <form action="/new" method="get">
+      <form action="/memos/new" method="get">
         <div class="form-action">
           <input type="submit" value="追加">
         </div>

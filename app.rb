@@ -6,21 +6,21 @@ set :erb, escape_html: true
 
 SAVE_FILE = 'memos.json'
 
-get '/' do
+get '/memos' do
   @memos = memos || []
   erb :index if @memos
 end
 
-get '/edit/:id' do
+get '/memos/:id/edit' do
   @memo = get_memo(params[:id])
   erb :edit if @memo
 end
 
-get '/new' do
+get '/memos/new' do
   erb :new
 end
 
-get '/show/:id' do
+get '/memos/:id' do
   @memo = get_memo(params[:id])
   erb :show if @memo
 end
@@ -71,7 +71,7 @@ post '/api/memos' do
   }
   add_memo(new_memo)
 
-  redirect '/'
+  redirect '/memos'
 end
 
 # 編集
@@ -79,13 +79,13 @@ patch '/api/memos/:id' do
   memo = { title: params[:title], content: params[:content] }
   edit_memo(params[:id], memo)
 
-  redirect '/'
+  redirect '/memos'
 end
 
 # 削除
 delete '/api/memos/:id' do
   delete_memo(params[:id])
-  redirect '/'
+  redirect '/memos'
 end
 
 def write_json(memos)
