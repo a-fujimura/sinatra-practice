@@ -82,9 +82,9 @@ delete '/api/memos/:id' do
   redirect '/memos'
 end
 
-def write_json(memos)
+def write_json(data)
   File.open(SAVE_FILE, 'w') do |file|
-    file.write(JSON.pretty_generate(memos))
+    file.write(JSON.pretty_generate(data))
   end
 end
 
