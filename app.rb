@@ -35,10 +35,10 @@ end
 
 def add_memo(memo_content)
   memo_json = read_json
-  value = memo_json[:autoincrement].to_i + 1
+  new_id = memo_json[:autoincrement].to_i + 1
 
-  memo_json[:autoincrement] = value
-  memo_json[:memos][value] = memo_content
+  memo_json[:autoincrement] = new_id
+  memo_json[:memos][new_id] = memo_content
 
   write_json(memo_json)
 end
