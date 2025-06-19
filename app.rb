@@ -43,9 +43,9 @@ def add_memo(memo_content)
   write_json(memo_json)
 end
 
-def edit_memo(memo_key, memo_content)
+def edit_memo(memo_id, memo_content)
   memo_json = read_json
-  target = memo_json[:memos][memo_key.to_sym]
+  target = memo_json[:memos][memo_id.to_sym]
   if target
     target[:title] = memo_content[:title]
     target[:content] = memo_content[:content]
@@ -53,9 +53,9 @@ def edit_memo(memo_key, memo_content)
   write_json(memo_json)
 end
 
-def delete_memo(memo_key)
+def delete_memo(memo_id)
   memo_json = read_json
-  memo_json[:memos].delete(memo_key.to_sym)
+  memo_json[:memos].delete(memo_id.to_sym)
 
   write_json(memo_json)
 end
