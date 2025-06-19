@@ -8,7 +8,9 @@ SAVE_FILE = 'memos.json'
 
 get '/memos' do
   @memos = memos || []
-  erb :index if @memos
+
+  halt 500 unless @memo
+  erb :index
 end
 
 def memos
@@ -17,12 +19,14 @@ end
 
 get '/memos/:id' do
   @memo = get_memo(params[:id])
-  erb :show if @memo
+  halt 500 unless @memo
+  erb :show
 end
 
 get '/memos/:id/edit' do
   @memo = get_memo(params[:id])
-  erb :edit if @memo
+  halt 500 unless @memo
+  erb :edit
 end
 
 def get_memo(id)
