@@ -3,7 +3,7 @@
 ```bash    
 git clone https://github.com/a-fujimura/sinatra-practice.git
 ```
-3. クローンしたフォルダに移動し、作業用ブランチに切り替えます。  
+2. クローンしたフォルダに移動し、作業用ブランチに切り替えます。  
 ```bash  
 cd sinatra-practice
 git checkout develop
