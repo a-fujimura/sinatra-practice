@@ -15,12 +15,12 @@ def memos
   read_json[:memos]
 end
 
-get '/memos/:id' do
+get '/memos/show/:id' do
   @memo = get_memo(params[:id])
   erb :show
 end
 
-get '/memos/:id/edit' do
+get '/memos/edit/:id' do
   @memo = get_memo(params[:id])
   erb :edit
 end

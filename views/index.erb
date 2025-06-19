@@ -15,7 +15,7 @@
       <ul>
         <% @memos.each do |key, memo| %>
           <li>
-            <a href="/memos/<%= key %>">
+            <a href="/memos/show/<%= key %>">
               <%= memo[:title] %>
             </a>
           </li>
