@@ -11,13 +11,8 @@ get '/memos' do
   erb :index if @memos
 end
 
-get '/memos/:id/edit' do
-  @memo = get_memo(params[:id])
-  erb :edit if @memo
-end
-
-get '/memos/new' do
-  erb :new
+def memos
+  read_json[:memos]
 end
 
 get '/memos/:id' do
@@ -25,39 +20,17 @@ get '/memos/:id' do
   erb :show if @memo
 end
 
-def memos
-  read_json[:memos]
+get '/memos/:id/edit' do
+  @memo = get_memo(params[:id])
+  erb :edit if @memo
 end
 
 def get_memo(id)
   memos[id.to_sym]
 end
 
-def add_memo(data)
-  memo_json = read_json
-  new_id = memo_json[:autoincrement].to_i + 1
-
-  memo_json[:autoincrement] = new_id
-  memo_json[:memos][new_id] = data
-
-  write_json(memo_json)
-end
-
-def edit_memo(id, data)
-  memo_json = read_json
-  target = memo_json[:memos][id.to_sym]
-  if target
-    target[:title] = data[:title]
-    target[:content] = data[:content]
-  end
-  write_json(memo_json)
-end
-
-def delete_memo(id)
-  memo_json = read_json
-  memo_json[:memos].delete(id.to_sym)
-
-  write_json(memo_json)
+get '/memos/new' do
+  erb :new
 end
 
 post '/api/memos' do
@@ -70,6 +43,16 @@ post '/api/memos' do
   redirect '/memos'
 end
 
+def add_memo(data)
+  memo_json = read_json
+  new_id = memo_json[:autoincrement].to_i + 1
+
+  memo_json[:autoincrement] = new_id
+  memo_json[:memos][new_id] = data
+
+  write_json(memo_json)
+end
+
 patch '/api/memos/:id' do
   memo = { title: params[:title], content: params[:content] }
   edit_memo(params[:id], memo)
@@ -77,15 +60,32 @@ patch '/api/memos/:id' do
   redirect '/memos'
 end
 
-delete '/api/memos/:id' do
-  delete_memo(params[:id])
-  redirect '/memos'
+def edit_memo(id, data)
+  memo_json = read_json
+  target = memo_json[:memos][id.to_sym]
+  if target
+    target[:title] = data[:title]
+    target[:content] = data[:content]
+  end
+  write_json(memo_json)
 end
 
 def write_json(data)
   File.open(SAVE_FILE, 'w') do |file|
     file.write(JSON.pretty_generate(data))
   end
+end
+
+delete '/api/memos/:id' do
+  delete_memo(params[:id])
+  redirect '/memos'
+end
+
+def delete_memo(id)
+  memo_json = read_json
+  memo_json[:memos].delete(id.to_sym)
+
+  write_json(memo_json)
 end
 
 def read_json
