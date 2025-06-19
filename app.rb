@@ -29,33 +29,33 @@ def memos
   read_json[:memos]
 end
 
-def get_memo(memo_id)
-  memos[memo_id.to_sym]
+def get_memo(id)
+  memos[id.to_sym]
 end
 
-def add_memo(memo_content)
+def add_memo(data)
   memo_json = read_json
   new_id = memo_json[:autoincrement].to_i + 1
 
   memo_json[:autoincrement] = new_id
-  memo_json[:memos][new_id] = memo_content
+  memo_json[:memos][new_id] = data
 
   write_json(memo_json)
 end
 
-def edit_memo(memo_id, memo_content)
+def edit_memo(id, data)
   memo_json = read_json
-  target = memo_json[:memos][memo_id.to_sym]
+  target = memo_json[:memos][id.to_sym]
   if target
-    target[:title] = memo_content[:title]
-    target[:content] = memo_content[:content]
+    target[:title] = data[:title]
+    target[:content] = data[:content]
   end
   write_json(memo_json)
 end
 
-def delete_memo(memo_id)
+def delete_memo(id)
   memo_json = read_json
-  memo_json[:memos].delete(memo_id.to_sym)
+  memo_json[:memos].delete(id.to_sym)
 
   write_json(memo_json)
 end
