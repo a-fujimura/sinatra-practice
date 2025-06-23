@@ -7,41 +7,11 @@ set :erb, escape_html: true
 SAVE_FILE = 'memos.json'
 
 get '/memos' do
-  @memos = memos || []
+  @memos = memos
   erb :index
 end
 
-def memos
-  read_json[:memos]
-end
-
-get '/memos/show/:id' do
-  @memo = get_memo(params[:id])
-  if @memo.nil?
-    halt 500
-  else
-    erb :show
-  end
-end
-
-get '/memos/edit/:id' do
-  @memo = get_memo(params[:id])
-  if @memo.nil?
-    halt 500
-  else
-    erb :edit
-  end
-end
-
-def get_memo(id)
-  memos[id.to_sym]
-end
-
-get '/memos/new' do
-  erb :new
-end
-
-post '/api/memos' do
+post '/memos' do
   new_memo = {
     title: params[:title],
     content: params[:content]
@@ -51,42 +21,66 @@ post '/api/memos' do
   redirect '/memos'
 end
 
-def add_memo(data)
-  memo_json = read_json
-  new_id = memo_json[:autoincrement].to_i + 1
-
-  memo_json[:autoincrement] = new_id
-  memo_json[:memos][new_id] = data
-
-  write_json(memo_json)
+get '/memos/new' do
+  erb :new
 end
 
-patch '/api/memos/:id' do
+get '/memos/edit/:id' do
+  @memo = get_memo(params[:id])
+  if @memo.nil?
+    halt 404
+  else
+    erb :edit
+  end
+end
+
+get '/memos/:id' do
+  @memo = get_memo(params[:id])
+  if @memo.nil?
+    halt 404
+  else
+    erb :show
+  end
+end
+
+patch '/memos/:id' do
   memo = { title: params[:title], content: params[:content] }
   edit_memo(params[:id], memo)
 
   redirect '/memos'
 end
 
-def edit_memo(id, data)
+delete '/memos/:id' do
+  delete_memo(params[:id])
+  redirect '/memos'
+end
+
+def memos
+  read_json[:memos]
+end
+
+def get_memo(id)
+  memos[id.to_sym]
+end
+
+def add_memo(memo)
   memo_json = read_json
-  target = memo_json[:memos][id.to_sym]
-  if target
-    target[:title] = data[:title]
-    target[:content] = data[:content]
-  end
+  new_id = memo_json[:autoincrement] + 1
+
+  memo_json[:autoincrement] = new_id
+  memo_json[:memos][new_id] = memo
+
   write_json(memo_json)
 end
 
-def write_json(data)
-  File.open(SAVE_FILE, 'w') do |file|
-    file.write(JSON.pretty_generate(data))
+def edit_memo(id, memo)
+  memo_json = read_json
+  target = memo_json[:memos][id.to_sym]
+  if target
+    target[:title] = memo[:title]
+    target[:content] = memo[:content]
   end
-end
-
-delete '/api/memos/:id' do
-  delete_memo(params[:id])
-  redirect '/memos'
+  write_json(memo_json)
 end
 
 def delete_memo(id)
@@ -99,4 +93,10 @@ end
 def read_json
   write_json({ autoincrement: 0, memos: {} }) unless File.exist?(SAVE_FILE)
   JSON.parse(File.read(SAVE_FILE), symbolize_names: true)
+end
+
+def write_json(data)
+  File.open(SAVE_FILE, 'w') do |file|
+    file.write(JSON.pretty_generate(data))
+  end
 end
