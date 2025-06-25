@@ -11,18 +11,17 @@ get '/memos' do
   erb :index
 end
 
-post '/memos' do
-  new_memo = {
-    title: params[:title],
-    content: params[:content]
-  }
-  add_memo(new_memo)
-
-  redirect '/memos'
-end
-
 get '/memos/new' do
   erb :new
+end
+
+get '/memos/:id' do
+  @memo = get_memo(params[:id])
+  if @memo.nil?
+    halt 404
+  else
+    erb :show
+  end
 end
 
 get '/memos/:id/edit' do
@@ -34,13 +33,14 @@ get '/memos/:id/edit' do
   end
 end
 
-get '/memos/:id' do
-  @memo = get_memo(params[:id])
-  if @memo.nil?
-    halt 404
-  else
-    erb :show
-  end
+post '/memos' do
+  new_memo = {
+    title: params[:title],
+    content: params[:content]
+  }
+  add_memo(new_memo)
+
+  redirect '/memos'
 end
 
 patch '/memos/:id' do
