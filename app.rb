@@ -95,8 +95,8 @@ def read_json
   JSON.parse(File.read(SAVE_FILE), symbolize_names: true)
 end
 
-def write_json(data)
+def write_json(json_data)
   File.open(SAVE_FILE, 'w') do |file|
-    file.write(JSON.pretty_generate(data))
+    file.write(JSON.pretty_generate(json_data))
   end
 end
