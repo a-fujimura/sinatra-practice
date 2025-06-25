@@ -22,7 +22,7 @@
         </div>
 
         <div class="form-action">
-          <form action="/memos/edit/<%= params[:id] %>" method="get">
+          <form action="/memos/<%= params[:id] %>/edit" method="get">
             <input type="submit" value="変更">
           </form>
           <form action="/memos/<%= params[:id] %>" method="post">

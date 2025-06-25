@@ -25,7 +25,7 @@ get '/memos/new' do
   erb :new
 end
 
-get '/memos/edit/:id' do
+get '/memos/:id/edit' do
   @memo = get_memo(params[:id])
   if @memo.nil?
     halt 404
