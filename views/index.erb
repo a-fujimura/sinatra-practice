@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello Sinatra</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <article>
+    <h1>メモアプリ</h1>
+    <section>
+      <h2>メモ一覧</h2>
+      <ul>
+        <% @memos.each do |key, memo| %>
+          <li>
+            <a href="/memos/<%= key %>">
+              <%= memo[:title] %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+      <a href="/memos/new">
+        追加
+      </a>
+    </section>
+  </article>
+</body>
+
+</html>
